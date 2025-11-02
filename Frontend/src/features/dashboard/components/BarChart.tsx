@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "recharts";
 import { getFrequenciaRegistros } from "@/services/metrics/frequencia-de-registros.service";
+import useContainerQuery from "@/hooks/useContainerQuery";
 
 type FrequenciaData = {
   name: string;
@@ -17,10 +18,16 @@ type FrequenciaData = {
 };
 
 export default function CustomBarChart() {
-  const [barSize, setBarSize] = useState(70);
+  const [barSize, setBarSize] = useState(60);
   const [data, setData] = useState<FrequenciaData[]>([
     { name: "Carregando...", valor: 1, periodo: "" },
   ]);
+
+  const { containerRef, currentBreakpoint } = useContainerQuery({
+    sm: 0,
+    md: 300,
+    lg: 600,
+  });
 
   useEffect(() => {
     const carregarDados = async () => {
@@ -48,18 +55,15 @@ export default function CustomBarChart() {
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640)
-        setBarSize(25); // mobile
-      else if (width < 1024)
-        setBarSize(40); // tablet
-      else setBarSize(70); // desktop
+      if (currentBreakpoint === "sm") setBarSize(25);
+      else if (currentBreakpoint === "md") setBarSize(40);
+      else setBarSize(60); // desktop
     };
 
     handleResize(); // executa no mount
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [currentBreakpoint]);
 
   return (
     <div
@@ -71,6 +75,7 @@ export default function CustomBarChart() {
         position: "relative",
       }}
       className="group transition-all duration-300 hover:scale-[1.02]"
+      ref={containerRef}
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -84,7 +89,14 @@ export default function CustomBarChart() {
           />
           <XAxis
             dataKey="name"
-            tick={{ fontSize: 14, fontWeight: 600, fill: "#374151" }}
+            tick={{
+              fontSize:
+                currentBreakpoint === "sm" || currentBreakpoint === "md"
+                  ? 8
+                  : 12,
+              fontWeight: 600,
+              fill: "#374151",
+            }}
             className="dark:[&_text]:fill-white"
             tickMargin={12}
             axisLine={false}
