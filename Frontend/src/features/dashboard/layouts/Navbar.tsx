@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus, FaAlignRight } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { HiMoon, HiSun, HiUser } from "react-icons/hi";
@@ -8,7 +8,6 @@ import MindLog from "../../../assets/MindTrack.png";
 import Button from "../../../components/ui/Button";
 import { getUserProfile } from "../../../services/user/profile.service";
 import type { Profile } from "@/lib/types/user.type";
-// import UserPopover from "@/components/UserPovover";
 import NavPopover from "@/components/NavPopover";
 import UserPopover from "@/components/UserPovover";
 import logoutUser from "@/services/auth/logout.service";
@@ -47,7 +46,6 @@ export default function NavBar() {
     try {
       await logoutUser();
       localStorage.removeItem("user-storage");
-      navigate("/login");
     } catch {
       toast.error("Erro ao fazer logout. Tente novamente.");
     }
@@ -78,9 +76,9 @@ export default function NavBar() {
 
   return (
     <>
-      <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-2xl transition-colors">
+      <nav className="bg-linear-to-tr from-[#fff8f3] to-[#f3eef0] dark:from-gray-900 dark:to-gray-800 transition-colors fixed w-full z-10 border-b border-gray-200 dark:border-gray-700">
         <div className="w-full px-6">
-          <div className="flex items-center h-16 w-full">
+          <div className="flex items-center gap-2 h-16 w-full">
             {/* Logo Section */}
             <div className="flex items-center gap-4">
               <div
@@ -105,7 +103,7 @@ export default function NavBar() {
             {/* Nav Links (desktop) */}
             <nav
               aria-label="Primary navigation"
-              className="hidden sm:flex flex-2 items-center space-x-4 justify-end"
+              className="flex flex-2 items-center space-x-4 justify-end"
             >
               <NavPopover className="hidden sm:block lg:hidden ml-10" />
               <div className="hidden lg:flex justify-center">
@@ -137,8 +135,11 @@ export default function NavBar() {
                 </ul>
               </div>
 
-              <div className="hidden sm:flex gap-4">
-                <div className="flex whitespace-nowrap" aria-label="Actions">
+              <div className="flex items-center gap-4">
+                <div
+                  className="hidden sm:flex whitespace-nowrap"
+                  aria-label="Actions"
+                >
                   <Button
                     className="hidden md:flex items-center p-2 gap-2"
                     onClick={() => navigate("/novo-registro")}
@@ -151,7 +152,7 @@ export default function NavBar() {
                 {/* Dark Mode Button */}
                 <button
                   onClick={toggleTheme}
-                  className="p-1 rounded-full hover:bg-indigo-100 dark:hover:bg-gray-700 hover:shadow-md cursor-pointer transition-colors"
+                  className="hidden xs:block p-1 rounded-full hover:bg-indigo-100 dark:hover:bg-gray-700 hover:shadow-md cursor-pointer transition-colors"
                   aria-label={
                     theme === "dark"
                       ? "Ativar modo claro"
@@ -171,7 +172,7 @@ export default function NavBar() {
                 </button>
 
                 {/* Separator Bar */}
-                <div className="w-px h-8 bg-gray-300 dark:bg-gray-600 shadow-md mx-2"></div>
+                <div className="hidden sm:block w-px h-8 bg-gray-300 dark:bg-gray-600 shadow-md mx-2"></div>
 
                 {/* User Profile Info */}
                 <div
@@ -224,7 +225,7 @@ export default function NavBar() {
             </nav>
 
             {/* Hamburger Mobile: visible below 1280px, hidden at >=1280px */}
-            <div className="sm:hidden relative -right-3 flex-1 flex justify-end">
+            <div className="sm:hidden flex justify-end">
               <button
                 ref={buttonRef}
                 onClick={() => setIsOpen(!isOpen)}
@@ -240,24 +241,30 @@ export default function NavBar() {
           {isOpen && (
             <div
               ref={menuRef}
-              className="bg-white dark:bg-gray-800 border dark:border-gray-700 flex flex-col top-full shadow-lg p-4 rounded-md space-y-3 xl:hidden mt-2 transition-colors"
+              className="flex flex-col top-full rounded-md space-y-3 xl:hidden mt-2 transition-colors mb-4"
             >
               {/* Links principais */}
-              <Button variant="tertiary" onClick={() => navigate("/dashboard")}>
+              <Link
+                to="/dashboard"
+                className="dark:hover:bg-gray-200/10 hover:bg-gray-200/30 hover:text-blue-700 p-2 text-center rounded-2xl font-medium"
+              >
                 Dashboard
-              </Button>
-              <Button variant="tertiary" onClick={() => navigate("/registros")}>
+              </Link>
+              <Link
+                to="/registros"
+                className="dark:hover:bg-gray-200/10 hover:bg-gray-200/30 hover:text-blue-700 p-2 text-center rounded-2xl font-medium"
+              >
                 Registros
-              </Button>
-              <Button
-                variant="tertiary"
-                onClick={() => navigate("/exportar-relatorio")}
+              </Link>
+              <Link
+                to="/exportar-relatorio"
+                className="dark:hover:bg-gray-200/10 hover:bg-gray-200/30 hover:text-blue-700 p-2 text-center rounded-2xl font-medium"
               >
                 Exportar
-              </Button>
+              </Link>
 
               <Button
-                className="p-2 flex items-center gap-2 mt-2"
+                className="p-2 flex items-center justify-center gap-2"
                 onClick={() => navigate("/novo-registro")}
               >
                 <FaPlus />
