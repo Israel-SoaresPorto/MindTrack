@@ -1,4 +1,4 @@
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
@@ -10,7 +10,7 @@ import AppInitializer from "./AppInitializer";
 const root = document.getElementById("root") as HTMLElement;
 
 ReactDOM.createRoot(root).render(
-  <HashRouter>
+  <BrowserRouter>
     <ThemeProvider>
       <HelmetProvider>
         <AppInitializer>
@@ -20,5 +20,5 @@ ReactDOM.createRoot(root).render(
       </HelmetProvider>
       <Toaster />
     </ThemeProvider>
-  </HashRouter>
+  </BrowserRouter>
 );

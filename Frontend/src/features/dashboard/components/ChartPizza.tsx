@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from "recharts";
 import { getCategoriaMaisUsada } from "@/services/metrics/categoria-mais-usada.service";
+import useContainerQuery from "@/hooks/useContainerQuery";
 
 type DataItem = {
   name: string;
@@ -37,6 +38,12 @@ export default function ChartPizza() {
     { name: "Carregando...", uv: 1 },
   ]);
 
+  const { containerRef, currentBreakpoint } = useContainerQuery({
+    sm: 0,
+    md: 300,
+    lg: 400,
+  });
+
   useEffect(() => {
     const carregarDados = async () => {
       try {
@@ -47,7 +54,7 @@ export default function ChartPizza() {
             ([key, value]) => ({
               name: key,
               uv: value.count, // Corrigido: usar count em vez de total
-            })
+            }),
           );
           setData(dadosFormatados);
         } else {
@@ -92,7 +99,9 @@ export default function ChartPizza() {
         y={y}
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
-        fontSize={14}
+        fontSize={
+          currentBreakpoint === "sm" ? 9 : currentBreakpoint === "md" ? 10 : 14
+        }
         fontWeight="bold"
         style={{ filter: "drop-shadow(1px 1px 3px rgba(0,0,0,0.5))" }}
       >
@@ -104,7 +113,13 @@ export default function ChartPizza() {
           dy="16"
           fill="#6b7280"
           className="dark:fill-gray-300"
-          fontSize="12"
+          fontSize={
+            currentBreakpoint === "sm"
+              ? 8
+              : currentBreakpoint === "md"
+                ? 9
+                : 12
+          }
           fontWeight="600"
         >
           {`${(percent * 100).toFixed(1)}%`}
@@ -123,6 +138,7 @@ export default function ChartPizza() {
         justifyContent: "center",
       }}
       className="group transition-all duration-300 hover:scale-[1.02]"
+      ref={containerRef}
     >
       <ResponsiveContainer width="95%" height="100%">
         <PieChart>

@@ -5,7 +5,7 @@ import { UserIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { HiUser } from "react-icons/hi";
 import { RxExit } from "react-icons/rx";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 export type UserPopoverProps = {
@@ -14,7 +14,6 @@ export type UserPopoverProps = {
 };
 
 export default function UserPopover({ className, user }: UserPopoverProps) {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -55,7 +54,6 @@ export default function UserPopover({ className, user }: UserPopoverProps) {
     try {
       await logoutUser();
       localStorage.removeItem("user-storage");
-      navigate("/login");
     } catch {
       toast.error("Erro ao fazer logout. Tente novamente.");
     }

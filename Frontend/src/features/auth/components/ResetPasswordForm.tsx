@@ -90,7 +90,7 @@ export default function ResetPassword() {
         <title>MindTrack - Redefinir Senha</title>
       </Helmet>
 
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-6 transition-colors">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-primary-gradient p-6 transition-colors">
         {/* Botão do tema */}
         <div className="fixed top-6 right-6 z-10">
           <button

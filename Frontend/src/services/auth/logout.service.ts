@@ -1,6 +1,7 @@
 import api from "@/lib/api/axios";
 import { AxiosError } from "axios";
 import type { ResponseError } from "../types/response.interface";
+import useAuthStore from "@/features/auth/store/auth.store";
 
 export default async function logoutUser() {
   try {
@@ -11,6 +12,9 @@ export default async function logoutUser() {
         withCredentials: true,
       },
     );
+
+    useAuthStore.getState().logout();
+
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {

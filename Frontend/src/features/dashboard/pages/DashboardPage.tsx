@@ -103,7 +103,7 @@ export function DashboardPage() {
       </Helmet>
 
       {/* Contêiner principal responsivo */}
-      <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 pt-6 px-4 sm:px-6 lg:px-16 overflow-x-hidden transition-colors">
+      <div className="min-h-screen flex flex-col bg-primary-gradient pt-6 px-4 sm:px-6 lg:px-16 overflow-x-hidden transition-colors">
         {/* Header */}
         <div className="text-left max-w-full">
           <h1 className="text-3xl font-bold font-sans mt-2 wrap-break-words text-gray-900 dark:text-white">
