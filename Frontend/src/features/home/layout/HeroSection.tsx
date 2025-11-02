@@ -1,18 +1,9 @@
-import Button from "../../../components/ui/Button";
+import LinkButton from "@/components/ui/LinkButton";
 
-type HeroSectionProps = {
-  onStart: () => void;
-  onLogin: () => void;
-};
-
-export function HeroSection(
-  props: HeroSectionProps & React.HTMLAttributes<HTMLElement>
-) {
-  const { onStart, onLogin } = props;
+export function HeroSection() {
   return (
-        <section className="flex flex-col lg:flex-row items-center justify-center px-6 sm:px-10 lg:px-20 py-8">
-
-      <div className="max-w-xl lg:mr-20 mb-12 lg:mb-0 text-center lg:text-left">
+    <section className="flex flex-col lg:flex-row items-center justify-center">
+      <div className="max-w-xl mb-12 lg:mb-0 text-center lg:text-left flex-1">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-2 text-gray-900 dark:text-white">
           Seu Diário de Bordo Acadêmico
         </h1>
@@ -21,13 +12,21 @@ export function HeroSection(
           evolução pessoal e acadêmica ao longo do semestre.
         </p>
 
-        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
-          <Button onClick={onStart} variant="secondary">
+        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center lg:justify-start flex-1">
+          <LinkButton
+            to="cadastro"
+            variant="secondary"
+            className="text-md text-nowrap flex items-center justify-center"
+          >
             🚀 Começar Agora
-          </Button>
-          <Button onClick={onLogin} variant="neutral">
+          </LinkButton>
+          <LinkButton
+            to="dashboard"
+            variant="neutral"
+            className="text-md text-nowrap flex items-center justify-center"
+          >
             🔑 Já tenho conta
-          </Button>
+          </LinkButton>
         </div>
 
         <div className="mt-8 text-sm text-gray-500 dark:text-gray-400 flex justify-center lg:justify-start space-x-4">
