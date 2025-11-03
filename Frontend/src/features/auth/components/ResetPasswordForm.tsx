@@ -64,7 +64,7 @@ export default function ResetPassword() {
     try {
       const response = await resetPassword({
         token,
-        newPassword: data.password,
+        new_password: data.password,
       });
 
       toast.success(response.message || "Senha alterada com sucesso!");

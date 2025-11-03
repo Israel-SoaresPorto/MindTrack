@@ -17,7 +17,7 @@ export interface RecoverPasswordData {
 
 export interface ResetPasswordData {
   token: string;
-  newPassword: string;
+  new_password: string;
 }
 
 // Estados de loading para componentes
