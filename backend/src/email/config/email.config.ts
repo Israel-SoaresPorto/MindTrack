@@ -15,6 +15,9 @@ const emailConfig = registerAs('email', () => {
   const rawPass = process.env.EMAIL_PASS;
   const rawFrom = process.env.EMAIL_FROM;
 
+  const rawApiKey = process.env.EMAIL_API_KEY;
+  const rawSender = process.env.EMAIL_SENDER;
+
   const host = rawHost ? rawHost.toString().trim() : undefined;
   const port = Number.isNaN(Number(rawPort))
     ? 587
@@ -22,6 +25,8 @@ const emailConfig = registerAs('email', () => {
   const user = rawUser ? rawUser.toString().trim() : undefined;
   const pass = rawPass ? rawPass.toString().trim() : undefined;
   const from = rawFrom ? rawFrom.toString().trim() : user;
+  const apiKey = rawApiKey ? rawApiKey.toString().trim() : undefined;
+  const sender = rawSender ? rawSender.toString().trim() : from;
 
   // EMAIL_SECURE can be provided as "true"/"false"/"1"/"0"/"yes"/"no"
   const secureEnv = parseBool(process.env.EMAIL_SECURE);
@@ -30,6 +35,8 @@ const emailConfig = registerAs('email', () => {
   const secure = typeof secureEnv !== 'undefined' ? secureEnv : port === 465;
 
   return {
+    apiKey,
+    sender,
     host,
     port,
     secure,

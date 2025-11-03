@@ -1,25 +1,9 @@
 import axios from "axios";
 import useAuthStore from "../../features/auth/store/auth.store";
 
-// Configuração dinâmica da URL da API
-const getApiBaseURL = () => {
-  // Se estiver em produção (Vercel), usar a URL do backend em produção
-  if (
-    typeof window !== "undefined" &&
-    window.location.hostname !== "localhost"
-  ) {
-    return (
-      import.meta.env.VITE_API_URL ||
-      "https://mindtrack-backend-ggpl.onrender.com"
-    );
-  }
-  // Em desenvolvimento, usar localhost
-  return "http://localhost:3000";
-};
-
 // Configuração base do axios
 const api = axios.create({
-  baseURL: getApiBaseURL(), // URL dinâmica do backend
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000", // URL da API do backend
   timeout: 60000, // 60 segundos de timeout (para geração de PDF)
   withCredentials: true, // Enviar cookies junto com as requisições
   headers: {

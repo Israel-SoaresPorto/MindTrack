@@ -23,18 +23,45 @@ services:
       retries: 5
     restart: "no"
 
-  backend:
+  backend-prod:
     build:
       context: ./backend/
       dockerfile: Dockerfile
+      target: production
+    image: mindtrack-backend:prod
+    profiles:
+      - backend
+    env_file:
+      - ./backend/.env
+    environment:
+      PORT: 8000  
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: "no"
+    entrypoint: ["sh", "/app/entrypoint.sh"]
+    command: ["node", "dist/main.js"]
+
+  backend-dev:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+      target: builder
     image: mindtrack-backend:dev
     profiles:
       - backend
-    env_file: 
+    env_file:
       - ./backend/.env
+    environment:
+      PORT: 3000  
     volumes:
       - ./backend/:/app/:delegated
-      - backend_node_modules:/app/node_modules
       - backend_generated:/app/generated
     ports:
       - "3000:3000"
@@ -47,7 +74,7 @@ services:
       retries: 5
     restart: "no"
     entrypoint: ["sh", "/app/entrypoint.sh"]
-    command: ["node", "dist/main.js"]
+    command: ["npm", "run", "start:dev"]
 
   frontend:
     build:
@@ -56,7 +83,7 @@ services:
     image: mindtrack-frontend:dev
     profiles:
       - frontend
-    env_file: 
+    env_file:
       - ./Frontend/.env
     volumes:
       - ./frontend/:/app/
@@ -69,7 +96,5 @@ services:
 volumes:
   postgres_data:
     name: mindtrack_postgres_data
-  backend_node_modules:
-    name: mindtrack_backend_node_modules
   backend_generated:
     name: mindtrack_backend_generated
